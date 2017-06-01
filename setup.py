@@ -10,7 +10,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 setup(
     name='student_bsu_by',
 
-    version='0.0.1',
+    version='0.0.2',
 
     description='Module for getting infromation from student.bsu.by',
     long_description=long_description,
@@ -23,5 +23,5 @@ setup(
 
     packages=['student_bsu_by'],
 
-    install_requires=['requests', 'pillow'],
+    install_requires=['requests'],
 )
