@@ -82,7 +82,7 @@ class Student:
                 "__EVENTARGUMENT": ""
             }
             term_data_html = self._s.post(self._DOMAIN + "/StudProgress.aspx", data=term_post_data).text
-            term_data_html = re.search('<table id="ctlStudProgress1_tblProgress".*>([\s\S]*?)</table>', term_data_html).group(1)
+            term_data_html = re.search('<table id="ctlStudProgress1_tblProgress".*?>([\s\S]*?)</table>', term_data_html).group(1)
 
             # TODO: Table parser
             raise NotImplementedYet()
@@ -102,7 +102,12 @@ class Student:
             self._login()
 
         if not self._debt_data:
-            raise NotImplementedYet()
+            debt_data_html = self._s.get(self._DOMAIN + "/MainInfo.aspx").text
+            debt_data_re = re.search('<span id="lDolg".*?><b>(.*?)</b></span>[\s\S]*<span id="lPeny".*?><b>(.*?)</b></span>', debt_data_html)
+            self._debt_data = {
+                "debt": float(debt_data_re.group(1)),
+                "fine": float(debt_data_re.group(2)),
+            }
         return self._debt_data
 
     @property
