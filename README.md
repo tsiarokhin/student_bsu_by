@@ -5,6 +5,10 @@ Tool for getting various student information from [student.bsu.by](http://http:/
 
 TODO
 
+## Usage
+
+TODO
+
 ## Documentation
 ```python
 class student_bsu_by.Student(surname, student_id='', contract_num='', captcha_solver=None)
