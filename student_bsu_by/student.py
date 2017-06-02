@@ -23,7 +23,6 @@ class Student:
         self._credentials_data = None
 
         self.logged_in = False
-        self._login()
 
     def _login(self):
         self._s.get(self._DOMAIN + "/Login.aspx")
