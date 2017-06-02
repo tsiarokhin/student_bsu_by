@@ -10,7 +10,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 setup(
     name='student_bsu_by',
 
-    version='0.0.3',
+    version='0.1.0',
 
     description='Module for getting information from student.bsu.by',
     long_description=long_description,
