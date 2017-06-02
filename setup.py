@@ -10,9 +10,9 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 setup(
     name='student_bsu_by',
 
-    version='0.0.2',
+    version='0.0.3',
 
-    description='Module for getting infromation from student.bsu.by',
+    description='Module for getting information from student.bsu.by',
     long_description=long_description,
     url='https://github.com/teryokhin/student_bsu_by',
 
