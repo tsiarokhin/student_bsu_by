@@ -17,6 +17,8 @@ class Student:
         self.captcha_solver = captcha_solver
         self._s = requests.session()
 
+        self._progress_page_html = None
+
         self._term_data = None
         self._general_data = None
         self._debt_data = None
@@ -65,13 +67,9 @@ class Student:
         elif "Выход" in result_html:
             self.logged_in = True
 
-    @property
-    def term_data(self):
-        if not self.logged_in:
-            self._login()
-
-        if not self._term_data:
-            term_post_data = {
+    def _load_progress_page_html(self):
+        if not self._progress_page_html:
+            progress_data = {
                 "ctlStudProgress1$cmbSemester": "0",
                 # Some magic data below
                 "ctlStudProgress1$txtROWGUID": "4e46072d-28a9-4074-b137-2132be54e347",
@@ -81,8 +79,19 @@ class Student:
                 "__EVENTTARGET": "",
                 "__EVENTARGUMENT": ""
             }
-            term_data_html = self._s.post(self._DOMAIN + "/StudProgress.aspx", data=term_post_data).text
-            term_data_html = re.search('<table id="ctlStudProgress1_tblProgress".*?>([\s\S]*?)</table>', term_data_html).group(1)
+            self._progress_page_html = self._s.post(self._DOMAIN + "/StudProgress.aspx", data=progress_data).text
+        return self._progress_page_html
+
+    @property
+    def term_data(self):
+        if not self.logged_in:
+            self._login()
+
+        if not self._term_data:
+            term_data_html = re.search(
+                '<table id="ctlStudProgress1_tblProgress".*?>([\s\S]*?)</table>',
+                self._load_progress_page_html()
+            ).group(1)
 
             # TODO: Table parser
             raise NotImplementedYet()
@@ -93,7 +102,23 @@ class Student:
         if not self.logged_in:
             self._login()
         if not self._general_data:
-            raise NotImplementedYet()
+            general_data_re = re.search(
+                ('<span id="ctlStudProgress1_lbStudName".*?><b>(.*?)</b></span>[\s\S]*'
+                 '<span id="ctlStudProgress1_lbStudFacultet".*?>(.*?)</span>[\s\S]*'
+                 '<span id="ctlStudProgress1_lbStudKurs".*?>(.) курс, группа (.*?), '
+                 'форма обучения (.*?), специальность: (.*)</span>[\s\S]*средний балл: (.*?)</b>'
+                 ),
+                self._load_progress_page_html()
+            )
+            self._general_data = {
+                "full_name": general_data_re.group(1),
+                "faculty": general_data_re.group(2),
+                "course": int(general_data_re.group(3)),
+                "group": int(general_data_re.group(4)),
+                "education_form": general_data_re.group(5),
+                "specialty": general_data_re.group(6),
+                "average_score": float(general_data_re.group(7))
+            }
         return self._general_data
 
     @property
@@ -106,7 +131,7 @@ class Student:
             debt_data_re = re.search('<span id="lDolg".*?><b>(.*?)</b></span>[\s\S]*<span id="lPeny".*?><b>(.*?)</b></span>', debt_data_html)
             self._debt_data = {
                 "debt": float(debt_data_re.group(1)),
-                "fine": float(debt_data_re.group(2)),
+                "fine": float(debt_data_re.group(2))
             }
         return self._debt_data
 
