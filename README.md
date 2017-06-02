@@ -24,7 +24,7 @@ Student.term_data = [ # list of terms
   [ # list of subjects
     {
       "subject": str,
-      "сredit_test": str,
+      "credit_test": str,
       "exam": str
     },
     {...},
