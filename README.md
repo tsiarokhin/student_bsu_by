@@ -7,8 +7,16 @@ pip install git+https://github.com/teryokhin/student_bsu_by.git
 ```
 
 ## Usage
+```python
+from student_bsu_by import Student
 
-TODO
+student = Student("Surname", student_id=1234567)
+print(student.general_data)
+
+expelled = student.debt_data["expelled"]
+if expelled:
+  print("Better luck next time :)")
+```
 
 ## Documentation
 ```python
