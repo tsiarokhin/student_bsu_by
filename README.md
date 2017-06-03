@@ -16,7 +16,7 @@ class student_bsu_by.Student(surname, student_id='', contract_num='', captcha_so
   * **surname** (*str*) - student's surname
   * **student_id** (*str*) - student's ID
   * **contract_num** (*str*) - student's contract number
-  * **captcha_solver** (*function(str)*) - function, that receives `captcha.jpg` file path and must return valid captcha result. If not specified, command-line prompt will be used
+  * **captcha_solver** (*function(filepath: str) -> str*) - function, that receives file path of captcha image (jpg) and must return a valid captcha result. If not specified, `input()` prompt will be used
 
 ### Properties
 ```python
