@@ -92,9 +92,42 @@ class Student:
                 '<table id="ctlStudProgress1_tblProgress".*?>([\s\S]*?)</table>',
                 self._load_progress_page_html()
             ).group(1)
+            self._term_data = []
+            terms_html = term_data_html.split('сессия')[1:]
+            for term_html in terms_html:
+                term_html = re.sub('</?[ib]>', '', term_html)
+                subjects_data_re = re.findall('<td align="left" class="styleLessonBody" title=".*?">(.*?)</td>'
+                                              '[\s\S]*?'
+                                              '<td align="center" class="styleZachBody" title=".*?">(.*?)</td>'
+                                              '[\s\S]*?'
+                                              '<td align="center" class="styleExamBody" title=".*?">(.*?)</td>', term_html)[1:]
+                current_term_data = []
+                for subject_re in subjects_data_re:
+                    subject_re = [item.strip() for item in subject_re]
+                    subject = subject_re[0]
+                    if subject_re[1][0] == '&':
+                        credit_test = '.'
+                    elif subject_re[1] == 'зачет':
+                        credit_test = '?'
+                    elif subject_re[1] == '+':
+                        credit_test = '+'
+                    else:
+                        credit_test = '-'
+                    if subject_re[2][0] == '&':
+                        exam = '.'
+                    elif subject_re[2] == 'экзамен':
+                        exam = '?'
+                    elif subject_re[2].isnumeric():
+                        exam = subject_re[2]
+                    else:
+                        exam = '-'
+                    current_term_data.append({
+                        'subject': subject,
+                        'credit_test': credit_test,
+                        'exam': exam
+                    })
+                self._term_data.append(current_term_data)
 
-            # TODO: Table parser
-            raise NotImplementedYet()
         return self._term_data
 
     @property
