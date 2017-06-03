@@ -2,8 +2,9 @@
 Tool for getting various student information from [student.bsu.by](http://http://student.bsu.by) website.
 
 ## Installation
-
-TODO
+```bash
+pip install git+https://github.com/teryokhin/student_bsu_by.git
+```
 
 ## Usage
 
