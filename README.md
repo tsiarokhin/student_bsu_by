@@ -40,7 +40,7 @@ Student.general_data = {
   "full_name": str,
   "faculty": str,
   "course": int,
-  "group": int,
+  "group": str,
   "education_form": str,
   "specialty": str,
   "average_score": float
@@ -50,7 +50,8 @@ Student.general_data = {
 ```python
 Student.debt_data = {
   "debt": float,
-  "fine": float
+  "fine": float,
+  "expelled": bool
 }
 ```
 

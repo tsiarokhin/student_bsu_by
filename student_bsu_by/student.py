@@ -114,7 +114,7 @@ class Student:
                 "full_name": general_data_re.group(1),
                 "faculty": general_data_re.group(2),
                 "course": int(general_data_re.group(3)),
-                "group": int(general_data_re.group(4)),
+                "group": general_data_re.group(4),
                 "education_form": general_data_re.group(5),
                 "specialty": general_data_re.group(6),
                 "average_score": float(general_data_re.group(7))
@@ -131,7 +131,8 @@ class Student:
             debt_data_re = re.search('<span id="lDolg".*?><b>(.*?)</b></span>[\s\S]*<span id="lPeny".*?><b>(.*?)</b></span>', debt_data_html)
             self._debt_data = {
                 "debt": float(debt_data_re.group(1)),
-                "fine": float(debt_data_re.group(2))
+                "fine": float(debt_data_re.group(2)),
+                "expelled": True if "Отчислен" in debt_data_html else False
             }
         return self._debt_data
 
