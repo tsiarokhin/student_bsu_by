@@ -130,8 +130,8 @@ class Student:
             debt_data_html = self._s.get(self._DOMAIN + "/MainInfo.aspx").text
             debt_data_re = re.search('<span id="lDolg".*?><b>(.*?)</b></span>[\s\S]*<span id="lPeny".*?><b>(.*?)</b></span>', debt_data_html)
             self._debt_data = {
-                "debt": float(debt_data_re.group(1)),
-                "fine": float(debt_data_re.group(2)),
+                "debt": float(debt_data_re.group(1)) if debt_data_re.group(1) else 0,
+                "fine": float(debt_data_re.group(2)) if debt_data_re.group(2) else 0,
                 "expelled": True if "Отчислен" in debt_data_html else False
             }
         return self._debt_data
