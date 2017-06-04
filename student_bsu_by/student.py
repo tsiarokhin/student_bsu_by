@@ -96,6 +96,8 @@ class Student:
             terms_html = term_data_html.split('сессия')[1:]
             for term_html in terms_html:
                 term_html = re.sub('</?[ib]>', '', term_html)
+                term_html = re.sub('</?font[^<>]*>', '', term_html)
+
                 subjects_data_re = re.findall('<td align="left" class="styleLessonBody" title=".*?">(.*?)</td>'
                                               '[\s\S]*?'
                                               '<td align="center" class="styleZachBody" title=".*?">(.*?)</td>'
@@ -103,31 +105,35 @@ class Student:
                                               '<td align="center" class="styleExamBody" title=".*?">(.*?)</td>', term_html)[1:]
                 current_term_data = []
                 for subject_re in subjects_data_re:
-                    subject_re = [item.strip() for item in subject_re]
+                    subject_re = (subject_re[0].strip(), subject_re[1].replace(' ', ''), subject_re[2].replace(' ', ''))
                     subject = subject_re[0]
+                    credit_test_tries = 0
+                    exam_tries = 0
+
                     if subject_re[1][0] == '&':
-                        credit_test = '.'
+                        credit_test = ''
                     elif subject_re[1] == 'зачет':
                         credit_test = '?'
-                    elif subject_re[1] == '+':
-                        credit_test = '+'
                     else:
-                        credit_test = '-'
+                        credit_test_tries = subject_re[1].count("'") + 1
+                        credit_test = subject_re[1].replace("'", '')
+
                     if subject_re[2][0] == '&':
-                        exam = '.'
+                        exam = ''
                     elif subject_re[2] == 'экзамен':
                         exam = '?'
-                    elif subject_re[2].isnumeric():
-                        exam = subject_re[2]
                     else:
-                        exam = '-'
+                        exam_tries = subject_re[2].count("'") + 1
+                        exam = subject_re[2].replace("'", '')
+
                     current_term_data.append({
                         'subject': subject,
                         'credit_test': credit_test,
-                        'exam': exam
+                        'credit_test_tries': credit_test_tries,
+                        'exam': exam,
+                        'exam_tries': exam_tries
                     })
                 self._term_data.append(current_term_data)
-
         return self._term_data
 
     @property

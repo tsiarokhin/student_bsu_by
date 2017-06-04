@@ -8,7 +8,7 @@ setup(
     description='Tool for getting various student information from student.bsu.by website.',
     url='https://github.com/teryokhin/student_bsu_by',
 
-    author='Maxim Teryokhin',
+    author='Maxim Teryokhin, Ilya Medyanikov',
     author_email='max.teryokhin@gmail.com',
 
     license='MIT',
