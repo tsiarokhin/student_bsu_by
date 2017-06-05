@@ -34,7 +34,9 @@ Student.term_data = [ # list of terms
     {
       "subject": str,
       "credit_test": str,
-      "exam": str
+      "credit_test_tries": int,
+      "exam": str,
+      "exam_tries": int
     },
     {...},
     ...

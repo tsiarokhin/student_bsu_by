@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name='student_bsu_by',
 
-    version='0.4.1',
+    version='0.5.0rc1',
 
     description='Tool for getting various student information from student.bsu.by website.',
     url='https://github.com/teryokhin/student_bsu_by',

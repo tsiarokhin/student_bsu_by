@@ -1,7 +1,7 @@
 import requests
 import re
 import os
-from .exceptions import NotImplementedYet, InvalidCaptchaError, InvalidCredentialsError
+from .exceptions import InvalidCaptchaError, InvalidCredentialsError
 
 
 class Student:
