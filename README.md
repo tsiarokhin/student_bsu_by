@@ -3,7 +3,7 @@ Tool for getting various student information from [student.bsu.by](http://http:/
 
 ## Installation
 ```bash
-pip install git+https://github.com/teryokhin/student_bsu_by.git
+pip install student-bsu-by
 ```
 
 ## Usage
