@@ -5,7 +5,7 @@ from .exceptions import InvalidCaptchaError, InvalidCredentialsError
 
 
 class Student:
-    _DOMAIN = "http://student.bsu.by"
+    _DOMAIN = "https://student.bsu.by"
     _CAPTCHA_FILENAME = "captcha.jpg"
 
     def __init__(self, surname, student_id='', contract_num='', captcha_solver=None):
@@ -55,8 +55,9 @@ class Student:
             "__EVENTTARGET": "",
             "__EVENTARGUMENT": ""
         }
-        result_html = self._s.post(self._DOMAIN + "/Login.aspx", data=auth_data).text
-
+        result_html = self._s.post(self._DOMAIN + "/Login.aspx", data=auth_data, headers={
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }).text
         # Check for errors
         if "lError" in result_html:
             error_msg = re.search('<font color="Red">(.*?)</font>', result_html).group(1)
